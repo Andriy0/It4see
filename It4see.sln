@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "It4see.Persistence", "It4se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "It4see.Domain", "It4see.Domain\It4see.Domain.csproj", "{E7DAB591-7927-4FBE-97A1-3E95D8217BE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "It4see.Persistence.Base", "It4see.Persistence.Base\It4see.Persistence.Base.csproj", "{AD89DD23-6A26-407F-AB36-09D6EF43DBCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "It4see.Persistence.Base", "It4see.Persistence.Base\It4see.Persistence.Base.csproj", "{AD89DD23-6A26-407F-AB36-09D6EF43DBCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "It4see.Application", "It4see.Application\It4see.Application.csproj", "{50B940CD-99D8-4E8F-8970-0D2D5C51725C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "It4see.Application", "It4see.Application\It4see.Application.csproj", "{50B940CD-99D8-4E8F-8970-0D2D5C51725C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "It4see.IntegrationTests", "It4see.IntegrationTests\It4see.IntegrationTests.csproj", "{2CA4F594-8961-4BF9-BBF4-6F1EB98B388C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{50B940CD-99D8-4E8F-8970-0D2D5C51725C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50B940CD-99D8-4E8F-8970-0D2D5C51725C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50B940CD-99D8-4E8F-8970-0D2D5C51725C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA4F594-8961-4BF9-BBF4-6F1EB98B388C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA4F594-8961-4BF9-BBF4-6F1EB98B388C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA4F594-8961-4BF9-BBF4-6F1EB98B388C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA4F594-8961-4BF9-BBF4-6F1EB98B388C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
