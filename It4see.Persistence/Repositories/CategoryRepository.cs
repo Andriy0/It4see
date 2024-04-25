@@ -36,7 +36,7 @@ public class CategoryRepository : ICategoryRepository
         return category;
     }
 
-    public async Task UpdateAsync(Category category)
+    public async Task<Category> UpdateAsync(Category category)
     {
         var dbCategory = await dbContext.Categories.FindAsync(category.Id);
         if (dbCategory == null)
@@ -47,6 +47,8 @@ public class CategoryRepository : ICategoryRepository
         dbCategory.Title = category.Title;
 
         await dbContext.SaveChangesAsync();
+
+        return dbCategory;
     }
 
     public async Task DeleteAsync(int id)

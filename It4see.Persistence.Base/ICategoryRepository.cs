@@ -8,6 +8,6 @@ public interface ICategoryRepository
     Task<Category> FindAsync(int id);
     Task<Category> FindByTitleAsync(string title);
     Task<Category> AddAsync(Category category);
-    Task UpdateAsync(Category category);
+    Task<Category> UpdateAsync(Category category);
     Task DeleteAsync(int id);
 }
