@@ -65,9 +65,9 @@ public class CategoryController : ControllerBase
             Title = category.Title
         };
 
-        await mediator.Send(createCategoryCommand);
+        var createdCategory = await mediator.Send(createCategoryCommand);
 
-        return Ok(category);
+        return Ok(createdCategory);
     }
 
     [HttpPut]

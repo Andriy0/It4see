@@ -14,11 +14,7 @@ public class WebAppFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(ReplaceDbContextWithInMemoryDb);
     }
-
-    /// <summary>
-    /// It is necessary to replace the default DbContext with an in-memory database
-    /// </summary>
-    /// <param name="services"></param>
+    
     private static void ReplaceDbContextWithInMemoryDb(IServiceCollection services)
     {
         var existingDbContextRegistration = services.SingleOrDefault(

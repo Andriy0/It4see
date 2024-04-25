@@ -29,10 +29,11 @@ public class CategoryRepository : ICategoryRepository
         return await dbContext.Categories.FirstOrDefaultAsync(c => c.Title == title);
     }
 
-    public async Task AddAsync(Category category)
+    public async Task<Category> AddAsync(Category category)
     {
         await dbContext.Categories.AddAsync(category);
         await dbContext.SaveChangesAsync();
+        return category;
     }
 
     public async Task UpdateAsync(Category category)

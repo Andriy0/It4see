@@ -5,7 +5,7 @@ using MediatR;
 
 namespace It4see.Application.Categories;
 
-public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand>
+public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Category>
 {
     private readonly ICategoryRepository categoryRepository;
 
@@ -14,13 +14,13 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         this.categoryRepository = categoryRepository;
     }
 
-    public async Task Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = new Category
         {
             Title = request.Title
         };
 
-        await categoryRepository.AddAsync(category);
+        return await categoryRepository.AddAsync(category);
     }
 }

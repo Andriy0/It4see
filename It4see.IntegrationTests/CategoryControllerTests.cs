@@ -1,9 +1,7 @@
-﻿using ApiTestDemo.IntegrationTests.TestSuite;
-using It4see.Domain;
+﻿using It4see.Domain;
 using It4see.IntegrationTests.TestSuite;
 using System.Net;
 using System.Net.Http.Json;
-using It4see.Persistence;
 
 namespace It4see.IntegrationTests
 {
@@ -21,7 +19,7 @@ namespace It4see.IntegrationTests
             Assert.Multiple(() =>
             {
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                // Assert.That(todoFromResponse!.Id, Is.EqualTo(1));
+                Assert.That(categoryFromResponse!.Id, Is.EqualTo(1));
                 Assert.That(categoryFromResponse!.Title, Is.EqualTo("Title"));
             });
         }
@@ -38,7 +36,7 @@ namespace It4see.IntegrationTests
             Assert.Multiple(() =>
             {
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                // Assert.That(todoFromResponse!.Id, Is.EqualTo(1));
+                Assert.That(categoryFromResponse!.Id, Is.EqualTo(1));
                 Assert.That(categoryFromResponse!.Title, Is.EqualTo("Title"));
             });
         }
@@ -68,13 +66,22 @@ namespace It4see.IntegrationTests
         [Test]
         public async Task Get_CategoryList_ReturnsListOfCategories_WhenCategoriesPresent()
         {
-            await HttpClient.PostAsJsonAsync("Category", new Category { Title = "Title 1" });
-            await HttpClient.PostAsJsonAsync("Category", new Category { Title = "Title 2" });
-            await HttpClient.PostAsJsonAsync("Category", new Category { Title = "Title 3" });
+            // await HttpClient.PostAsJsonAsync("Category", new Category { Title = "Title 1" });
+            // await HttpClient.PostAsJsonAsync("Category", new Category { Title = "Title 2" });
+            // await HttpClient.PostAsJsonAsync("Category", new Category { Title = "Title 3" });
             // await dbContext.Categories.AddAsync(new Category { Title = "Title 1" });
             // await dbContext.Categories.AddAsync(new Category { Title = "Title 2" });
             // await dbContext.Categories.AddAsync(new Category { Title = "Title 3" });
             // await dbContext.SaveChangesAsync();
+            var categories = new List<Category>
+            {
+                new() { Title = "Title 1" },
+                new() { Title = "Title 2" },
+                new() { Title = "Title 3" }
+            };
+            
+            await DbContext.Categories.AddRangeAsync(categories);
+            await DbContext.SaveChangesAsync();
 
             var httpResponseMessage = await HttpClient.GetAsync("Category/list");
             var categoriesFromResponse = await httpResponseMessage.DeserializeAsync<List<Category>>();
@@ -84,6 +91,7 @@ namespace It4see.IntegrationTests
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(categoriesFromResponse, Is.Not.Empty);
                 Assert.That(categoriesFromResponse!.ConvertAll((c) => c.Title), Is.EqualTo(new List<string> {"Title 1", "Title 2", "Title 3"}));
+                // Assert.That(categoriesFromResponse, Is.EqualTo(categories));
             });
         }
     }
