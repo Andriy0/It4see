@@ -2,6 +2,7 @@
 using It4see.IntegrationTests.TestSuite;
 using System.Net;
 using System.Net.Http.Json;
+using It4see.Web.ViewModels.Category;
 
 namespace It4see.IntegrationTests
 {
@@ -11,10 +12,10 @@ namespace It4see.IntegrationTests
         [Test]
         public async Task Post_ValidCategory_ReturnsCategory()
         {
-            var category = new Category { Title = "Title" };
+            var categoryDto = new CreateCategoryViewModel { Title = "Title" };
 
-            var httpResponseMessage = await HttpClient.PostAsJsonAsync("Category", category);
-            var categoryFromResponse = await httpResponseMessage.DeserializeAsync<Category>();
+            var httpResponseMessage = await HttpClient.PostAsJsonAsync("Category", categoryDto);
+            var categoryFromResponse = await httpResponseMessage.DeserializeAsync<CategoryDetailsViewModel>();
 
             Assert.Multiple(() =>
             {
@@ -31,13 +32,12 @@ namespace It4see.IntegrationTests
             await DbContext.SaveChangesAsync();
 
             var httpResponseMessage = await HttpClient.GetAsync($"Category?id={category.Id}");
-            var categoryFromResponse = await httpResponseMessage.DeserializeAsync<Category>();
+            var categoryDtoFromResponse = await httpResponseMessage.DeserializeAsync<CategoryDetailsViewModel>();
             
             Assert.Multiple(() =>
             {
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(categoryFromResponse!.Id, Is.EqualTo(category.Id));
-                Assert.That(categoryFromResponse.Title, Is.EqualTo("Title"));
+                Assert.That(categoryDtoFromResponse!.Title, Is.EqualTo("Title"));
             });
         }
 
@@ -57,13 +57,12 @@ namespace It4see.IntegrationTests
             await DbContext.SaveChangesAsync();
 
             var httpResponseMessage = await HttpClient.GetAsync($"Category/ByTitle?title={category.Title}");
-            var categoryFromResponse = await httpResponseMessage.DeserializeAsync<Category>();
+            var categoryDtoFromResponse = await httpResponseMessage.DeserializeAsync<CategoryDetailsViewModel>();
             
             Assert.Multiple(() =>
             {
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(categoryFromResponse!.Id, Is.EqualTo(category.Id));
-                Assert.That(categoryFromResponse.Title, Is.EqualTo("Title"));
+                Assert.That(categoryDtoFromResponse!.Title, Is.EqualTo("Title"));
             });
         }
         
@@ -79,13 +78,13 @@ namespace It4see.IntegrationTests
         public async Task Get_CategoryList_ReturnsEmptyList_WhenNoCategories()
         {
             var httpResponseMessage = await HttpClient.GetAsync("Category/list");
-            var categoriesFromResponse = await httpResponseMessage.DeserializeAsync<List<Category>>();
+            var categoriesDtoFromResponse = await httpResponseMessage.DeserializeAsync<List<CategoryListViewModel>>();
 
             Assert.Multiple(() =>
             {
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(categoriesFromResponse, Is.Not.Null);
-                Assert.That(categoriesFromResponse, Is.Empty);
+                Assert.That(categoriesDtoFromResponse, Is.Not.Null);
+                Assert.That(categoriesDtoFromResponse, Is.Empty);
             });
         }
 
@@ -103,20 +102,20 @@ namespace It4see.IntegrationTests
             await DbContext.SaveChangesAsync();
 
             var httpResponseMessage = await HttpClient.GetAsync("Category/list");
-            var categoriesFromResponse = await httpResponseMessage.DeserializeAsync<List<Category>>();
+            var categoriesDtoFromResponse = await httpResponseMessage.DeserializeAsync<List<CategoryListViewModel>>();
 
             Assert.Multiple(() =>
             {
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(categoriesFromResponse, Is.Not.Empty);
-                Assert.That(categoriesFromResponse!.ConvertAll((c) => c.Title), Is.EqualTo(new List<string> {"Title 1", "Title 2", "Title 3"}));
+                Assert.That(categoriesDtoFromResponse, Is.Not.Empty);
+                Assert.That(categoriesDtoFromResponse!.ConvertAll((c) => c.Title), Is.EqualTo(new List<string> {"Title 1", "Title 2", "Title 3"}));
             });
         }
         
         [Test]
         public async Task Put_NonExistingCategory_ReturnsInternalServerError()
         {
-            var modifiedCategory = new Category { Id = 1, Title = "Modified title" };
+            var modifiedCategory = new UpdateCategoryViewModel { Id = 1, Title = "Modified title" };
         
             var httpResponseMessage = await HttpClient.PutAsJsonAsync("Category", modifiedCategory);
             
@@ -133,12 +132,12 @@ namespace It4see.IntegrationTests
             var modifiedCategory = new Category { Id = category.Id, Title = "Modified title" };
 
             var httpResponseMessage = await HttpClient.PutAsJsonAsync("Category", modifiedCategory);
-            var categoryFromResponse = await httpResponseMessage.DeserializeAsync<Category>();
+            var categoryDtoFromResponse = await httpResponseMessage.DeserializeAsync<CategoryDetailsViewModel>();
             
             Assert.Multiple(() =>
             {
                 Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(categoryFromResponse!.Title, Is.EqualTo("Modified title"));
+                Assert.That(categoryDtoFromResponse!.Title, Is.EqualTo("Modified title"));
             });
         }
         

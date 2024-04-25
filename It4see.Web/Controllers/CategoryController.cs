@@ -42,7 +42,7 @@ public class CategoryController : ControllerBase
             return NotFound();
         }
 
-        return Ok(category);
+        return Ok(mapper.Map<CategoryDetailsViewModel>(category));
     }
 
     [HttpGet("byTitle")]
@@ -54,34 +54,34 @@ public class CategoryController : ControllerBase
             return NotFound();
         }
 
-        return Ok(category);
+        return Ok(mapper.Map<CategoryDetailsViewModel>(category));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Category category)
+    public async Task<IActionResult> Post(CreateCategoryViewModel categoryDto)
     {
         var createCategoryCommand = new CreateCategoryCommand
         {
-            Title = category.Title
+            Title = categoryDto.Title
         };
 
         var createdCategory = await mediator.Send(createCategoryCommand);
 
-        return Ok(createdCategory);
+        return Ok(mapper.Map<CategoryDetailsViewModel>(createdCategory));
     }
 
     [HttpPut]
-    public async Task<IActionResult> Put(Category category)
+    public async Task<IActionResult> Put(UpdateCategoryViewModel categoryDto)
     {
         var updateCategoryCommand = new UpdateCategoryCommand
         {
-            Id = category.Id,
-            Title = category.Title
+            Id = categoryDto.Id,
+            Title = categoryDto.Title
         };
 
-        await mediator.Send(updateCategoryCommand);
+        var category = await mediator.Send(updateCategoryCommand);
 
-        return Ok(category);
+        return Ok(mapper.Map<CategoryDetailsViewModel>(category));
     }
 
     [HttpDelete]
